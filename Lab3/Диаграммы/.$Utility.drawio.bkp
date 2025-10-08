@@ -1,0 +1,28 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
+  <diagram name="Страница — 1" id="uJy0wk0YPTGOhf-Yk2S_">
+    <mxGraphModel dx="808" dy="552" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a-21Tg05XktNHDUC52Gq-1" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="720" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a-21Tg05XktNHDUC52Gq-2" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="400" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a-21Tg05XktNHDUC52Gq-5" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/png,iVBORw0KGgoAAAANSUhEUgAAACsAAAAqCAYAAAAqAaJlAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALBSURBVFhH7ZlNrmlBEMfL24DYgAFjMxsg8bEDYgcswMAOTI0MjbABA5GYECMRghlWQCzhvvN3q+8rrU/r6912I/FLKuocdfr8+6u6ROQjgF6EP/z5ErzF+uIt1hdOYmu1GkUiEaOtViuO+mQ6nRrjlJ1OJ458AKQuF5rNJlLclyWTyY/9fs/fXjOZTK5iYaVSKTTeFWexQL681+vx3VuOx+NVbKPR4G/+D2exGBUpAILCkLNg69R3cRYrpzadTvPdW5bLpRehwDkbzGYz9ojy+Tx712DzZDKZix8IpXK5fPF/Cmexi8WCPaJUKsXePyC0WCzS+Xz2IvQCj/BdYrHY1/TquxrrF0sD3/301EucxMrNBdGSZwkFTmIhQoktFAp897MTzxIKnNbser1mjyibzV4++/0+BUJpPp9Tu932s0Z1WLQVjCZCwywQy5F+cfqlgDPdRnD00m634yt/3F0GKEwk6BssOKX4DlGwdm/ifHBX7Ha7ZY8oWA7sEdXr9cuIKrrdLnsewTKwgWoJYTCc+RKZJWB6/jUxGAwuhQ32gczdyCpo31Zz3BWLUlA1iPpAgoblC/XO6MgCB5tSCUO7qh2IDsMqFo2pxmGmXksB6JgNFWvKHnKWMPomrGLxkGogrMfydLO96B5yYMJmyLrBNpsNe+GVViKRoGq1yldErVaLvceJRqPsXWMVOx6P2SOKx+Ps3VKpVNgjGg6HdDgc+Mqd0WjEHlEul2NPg0f4Bn169c2lIzdiMNJ81w0sAfW87SeQUSwelikLhmvTBgPyZcq+cwSrd9kyATCKlelIml4eKsJqB1mhhYFZQCyEhg2GwpoNfIMpdxUKfk2syquuQsGviH1EKHi6WPxUx9qHmWoJVTeYeLpYjCZGFaJ1IB6dQHYw8VSxepUWZg8dtz9Np9Nh7zHef4D44i3WFy8klugvwr2cakJYr/AAAAAASUVORK5CYII=;" vertex="1" parent="1">
+          <mxGeometry x="727" y="390" width="20.48" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a-21Tg05XktNHDUC52Gq-6" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/png,iVBORw0KGgoAAAANSUhEUgAAACoAAAAvCAYAAACVDljoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJ4SURBVGhD7ZlNzjFBEMfLewNxAw4gEYmVjUQcgStwAYlY2nACrKywsCURS2JlQWLLCXwcwTv/Ue3pMd0zPnomz5PML6moLm38p6erukTsZkF/gH/8+uuJhJomEmqaSKhptELH4zHFYjGl9Xo9nvWDap6w2WzGs74ABV/HcrnEYeAwxFQcDodbKpVyzM1ms9r57+IpFJRKpccXV6tVjqqBMDEXnzudTvzO9/gKlVdpOp1y1I28+n439Am+QsWXw3QrhLi4oSBEgpf3KB6rDrE9ghIJPIV2u92HUJ0IxIMWCTyFlsvlh9DRaMTRH8ISCTyFyom03W45eidMkUArFHVRiIQJkDhhiwRaoShFQiSSBSC5RK3EtggT7RG63+/ZI5rP5/ZRmM/nabPZcDRkWLAL+UTSGbZHWGhXFKsosB45bsh+lZlMJuyFwF2vE2Q43hImIxIJhqoQFkqhcqEXiSR4rgaq+uoFqka73b7F4/G3Oivlo9/tduwRFQoF9u4kk0myxPOIaDAYsOcPetxcLkf1ep2u1ytHX4QFO5DbNVXHJPcAML+kksuabO+sqEsoHo18MV3HJJ9ajUaDo25EPcbjxrXkm/xKqHwhr44Je1PMw37T3RCQj99Phbr26Hq9Zo/IWjX23BSLRbIE2j7222KxsH0V6XSavc9xCe33++wRZTIZ9twkEgmqVCo8Imo2m+wFg0Nop9MhKzF4dBd9PB555OZyubBH9udqtRqdz2eOGIa3gKP3fLbnFg8gOVRzYV4YS6agMZZMv5VIqGkioSpWqxW1Wi0eEQ2HQ0cD5AknVaC88mvhuZ18Jvr7xjSRUNNEQk0TCTUL0X+nHhgvd5WxxQAAAABJRU5ErkJggg==;" vertex="1" parent="1">
+          <mxGeometry x="394" y="95" width="17.87" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
