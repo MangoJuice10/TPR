@@ -17,7 +17,7 @@ abstract class Criterion {
 
     @Override
     public String toString() {
-        return String.format("%s", value);
+        return String.format("%.4f", value);
     }
 }
 
@@ -51,9 +51,9 @@ class UtilityFunction {
         }
         PolynomialCurveFitter fitter = PolynomialCurveFitter.create(2);
         double[] coefs = fitter.fit(points.toList());
-        this.linearCoef = coefs[0];
-        this.quadraticCoef = coefs[1];
-        this.constantTerm = coefs[2];
+        this.constantTerm = coefs[0];
+        this.linearCoef = coefs[1];
+        this.quadraticCoef = coefs[2];
     }
 
     public void approximateUtilityFunction(double[] x, double[] y) {
@@ -442,11 +442,6 @@ public class App {
         K1_function.outputFunction();
         K2_function.outputFunction();
         out.println();
-
-        out.println(K1_function.calcUtility(0.01));
-        out.println(K1_function.calcUtility(0.013));
-        out.println(K1_function.calcUtility(0.02));
-        out.println(K1_function.calcUtility(0.04));
 
         Alternative bestAlternative = null;
         double bestUtility = Double.NEGATIVE_INFINITY;
