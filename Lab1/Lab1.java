@@ -13,6 +13,13 @@ public class Lab1 {
                 if (a[i][j] == 1) {
                     if (a[j][i] == 0)
                         maxRX[j] = 0;
+                }
+            }
+        }
+
+        for (int i = 0; i < card; i++) {
+            for (int j = 0; j < card; j++) {
+                if (a[i][j] == 1) {
                     if (a[j][i] == 1 && maxRX[i] == 0)
                         maxRX[j] = 0;
                 }

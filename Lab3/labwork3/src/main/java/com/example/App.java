@@ -9,7 +9,7 @@ import org.apache.commons.math3.fitting.WeightedObservedPoints;
 
 abstract class Criterion {
     public double value;
-    public Double oneDimUtility;
+    public Integer oneDimUtility;
 
     protected Criterion(double value) {
         this.value = value;
@@ -84,7 +84,7 @@ class Alternative {
         this.k2 = k2;
     }
 
-    public double getTwoDimUtility() {
+    public Integer getTwoDimUtility() {
         return k1.oneDimUtility + k2.oneDimUtility;
     }
 
@@ -232,10 +232,10 @@ class Problem {
     }
 
     public void computeIndifferenceCurves() {
-        this.K1_values.get(0).oneDimUtility = 0.0;
-        this.K2_values.get(0).oneDimUtility = 0.0;
-        K1_values.get(1).oneDimUtility = 1.0;
-        K2_values.get(1).oneDimUtility = 1.0;
+        this.K1_values.get(0).oneDimUtility = 0;
+        this.K2_values.get(0).oneDimUtility = 0;
+        K1_values.get(1).oneDimUtility = 1;
+        K2_values.get(1).oneDimUtility = 1;
 
         IndifferenceCurve initialCurve = new IndifferenceCurve();
         initialCurve.alternatives = new ArrayList<>();
@@ -283,21 +283,21 @@ class Problem {
     public void outputAlternativesTwoDimUtilities() {
         out.println("Значения полезностей решений:");
         for (int i = 0; i < this.alternatives.size(); i++) {
-            out.printf("%s: %f\n", this.alternatives.get(i).toString(), this.alternatives.get(i).getTwoDimUtility());
+            out.printf("%s: %d\n", this.alternatives.get(i).toString(), this.alternatives.get(i).getTwoDimUtility());
         }
     }
 
     public void outputK1OneDimUtilitities() {
         out.println("Значения одномерной полезности для дискретных значений критерия K1:");
         for (K1 k1_val : this.K1_values) {
-            out.printf("U(%f) = %.2f\n", k1_val.value, k1_val.oneDimUtility);
+            out.printf("U(%f) = %d\n", k1_val.value, k1_val.oneDimUtility);
         }
     }
 
     public void outputK2OneDimUtilitities() {
         out.println("Значения одномерной полезности для дискретных значений критерия K2:");
         for (K2 k2_val : this.K2_values) {
-            out.printf("U(%f) = %.2f\n", k2_val.value, k2_val.oneDimUtility);
+            out.printf("U(%f) = %d\n", k2_val.value, k2_val.oneDimUtility);
         }
     }
 }
