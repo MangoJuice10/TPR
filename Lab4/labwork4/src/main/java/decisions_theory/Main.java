@@ -2,7 +2,7 @@ package decisions_theory;
 
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import static java.lang.System.out;
 
@@ -10,6 +10,9 @@ class Alternative implements Comparable<Alternative> {
     private String name;
     private final int f1;
     private final int f2;
+
+    public static final Comparator<Alternative> F1_COMPARATOR = Comparator.comparingInt(Alternative::getF1);
+    public static final Comparator<Alternative> F2_COMPARATOR = Comparator.comparingInt(Alternative::getF2);
 
     public Alternative(String name, int f1, int f2) {
         this.name = name;
@@ -59,29 +62,32 @@ public class Main {
         return alternatives;
     }
 
-    private static ArrayList<Alternative> findParetoSetX(ArrayList<Alternative> alternatives) {
-        ArrayList<Alternative> paretoSet = new ArrayList<>();
-        Collections.sort(alternatives);
-        for (Alternative alternative : alternatives) {
-            boolean isDominated = false;
+    private static boolean isDominatedByBothCriteria(Alternative a, Alternative pA) {
+        return (a.getF1() < pA.getF1()) && (a.getF2() < pA.getF2());
+    }
 
-            Iterator<Alternative> iterator = paretoSet.iterator();
-            while (iterator.hasNext()) {
-                Alternative paretoAlternative = iterator.next();
-                if (alternative.getF1() == paretoAlternative.getF1()
-                        && alternative.getF2() < paretoAlternative.getF2()) {
-                    isDominated = true;
+    private static boolean isDominatedByOneCriterion(Alternative a, Alternative pA) {
+        boolean isDominatedByF1 = ((a.getF1() < pA.getF1()) && (a.getF2() == pA.getF2()));
+        boolean isDominatedByF2 = (a.getF1() == pA.getF1()) && (a.getF2() < pA.getF2());
+        return isDominatedByF1 || isDominatedByF2;
+    }
+
+    private static ArrayList<Alternative> findParetoSetX(ArrayList<Alternative> alternatives) {
+        ArrayList<Alternative> paretoSet = new ArrayList<>(alternatives);
+        ArrayList<Alternative> dominatedAlternatives = new ArrayList<>();
+
+        for (Alternative a : alternatives) {
+            for (Alternative pA : alternatives) {
+                if (a == pA)
+                    continue;
+                if (isDominatedByBothCriteria(a, pA) || isDominatedByOneCriterion(a, pA)) {
+                    dominatedAlternatives.add(a);
                     break;
                 }
-                if (alternative.getF2() > paretoAlternative.getF2()) {
-                    iterator.remove();
-                }
-            }
-
-            if (!isDominated) {
-                paretoSet.add(alternative);
             }
         }
+
+        paretoSet.removeAll(dominatedAlternatives);
         return paretoSet;
     }
 
@@ -120,7 +126,7 @@ public class Main {
         double minDist = Double.POSITIVE_INFINITY;
         final int[] idealPoint = findIdealPoint(paretoSet);
         for (Alternative alternative : paretoSet) {
-            int[] point = new int[] {alternative.getF1(), alternative.getF2()};
+            int[] point = new int[] { alternative.getF1(), alternative.getF2() };
             double curMinDist = findEuclideanDistance(point, idealPoint);
             if (curMinDist < minDist) {
                 CX.clear();
@@ -155,9 +161,25 @@ public class Main {
                 { 6, 4 },
                 { 2, 5 },
         };
+
+        points = new int[][] {
+                { 2, 4 },
+                { 5, 3 },
+                { 6, 2 },
+                { 3, 4 },
+                { 8, 3 },
+                { 4, 5 },
+                { 2, 6 },
+                { 3, 5 },
+                { 3, 4 },
+                { 3, 6 },
+                { 4, 4 },
+        };
         ArrayList<Alternative> alternatives = initAlternatives(points);
         ArrayList<Alternative> paretoSet = findParetoSetX(alternatives);
         ArrayList<Alternative> preferredAlternatives = findPreferredAlternatives(paretoSet);
+        out.println("Граница Парето образована решениями:");
+        printAlternatives(paretoSet);
         out.println("Эффективными решениями являются:");
         printAlternatives(preferredAlternatives);
     }
