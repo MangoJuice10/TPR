@@ -1,6 +1,7 @@
 package decisions_theory;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -50,8 +51,8 @@ class NullAlternative extends Alternative {
 }
 
 public class Main {
-    private static ArrayList<Alternative> initAlternatives(int[][] points) {
-        ArrayList<Alternative> alternatives = new ArrayList<>();
+    private static List<Alternative> initAlternatives(int[][] points) {
+        List<Alternative> alternatives = new ArrayList<>();
 
         int index = 1;
         for (int[] point : points) {
@@ -72,9 +73,9 @@ public class Main {
         return isDominatedByF1 || isDominatedByF2;
     }
 
-    private static ArrayList<Alternative> findParetoSetX(ArrayList<Alternative> alternatives) {
-        ArrayList<Alternative> paretoSet = new ArrayList<>(alternatives);
-        ArrayList<Alternative> dominatedAlternatives = new ArrayList<>();
+    private static List<Alternative> findParetoSetX(List<Alternative> alternatives) {
+        List<Alternative> paretoSet = new ArrayList<>(alternatives);
+        List<Alternative> dominatedAlternatives = new ArrayList<>();
 
         for (Alternative a : alternatives) {
             for (Alternative pA : alternatives) {
@@ -91,7 +92,7 @@ public class Main {
         return paretoSet;
     }
 
-    private static Alternative findMaxF1Alternative(ArrayList<Alternative> alternatives) {
+    private static Alternative findMaxF1Alternative(List<Alternative> alternatives) {
         Alternative maxF1Alternative = new NullAlternative();
         for (Alternative alternative : alternatives) {
             if (alternative.getF1() > maxF1Alternative.getF1()) {
@@ -101,7 +102,7 @@ public class Main {
         return maxF1Alternative;
     }
 
-    private static Alternative findMaxF2Alternative(ArrayList<Alternative> alternatives) {
+    private static Alternative findMaxF2Alternative(List<Alternative> alternatives) {
         Alternative maxF2Alternative = new NullAlternative();
         for (Alternative alternative : alternatives) {
             if (alternative.getF2() > maxF2Alternative.getF2()) {
@@ -111,7 +112,7 @@ public class Main {
         return maxF2Alternative;
     }
 
-    private static int[] findIdealPoint(ArrayList<Alternative> alternatives) {
+    private static int[] findIdealPoint(List<Alternative> alternatives) {
         Alternative maxF1Alternative = findMaxF1Alternative(alternatives);
         Alternative maxF2Alternative = findMaxF2Alternative(alternatives);
         return new int[] { maxF1Alternative.getF1(), maxF2Alternative.getF2() };
@@ -121,8 +122,8 @@ public class Main {
         return Math.sqrt(Math.pow(pointB[0] - pointA[0], 2) + Math.pow(pointB[1] - pointA[1], 2));
     }
 
-    private static ArrayList<Alternative> findPreferredAlternatives(ArrayList<Alternative> paretoSet) {
-        ArrayList<Alternative> CX = new ArrayList<>();
+    private static List<Alternative> findPreferredAlternatives(List<Alternative> paretoSet) {
+        List<Alternative> CX = new ArrayList<>();
         double minDist = Double.POSITIVE_INFINITY;
         final int[] idealPoint = findIdealPoint(paretoSet);
         for (Alternative alternative : paretoSet) {
@@ -140,12 +141,21 @@ public class Main {
         return CX;
     }
 
-    private static void printAlternatives(ArrayList<Alternative> alternatives) {
+    private static void printAlternatives(List<Alternative> alternatives) {
         String text = "";
         for (Alternative alternative : alternatives) {
             text += alternative + ", ";
         }
         out.println(text.substring(0, text.length() - 2));
+    }
+
+    private static void printEuclideanDistances(List<Alternative> alternatives) {
+        final int[] idealPoint = findIdealPoint(alternatives);
+        for (Alternative alternative : alternatives) {
+            int[] point = new int[] { alternative.getF1(), alternative.getF2() };
+            double dist = findEuclideanDistance(point, idealPoint);
+            out.printf("Расстояние от точки %s до идеальной точки %s: %f\n", Arrays.toString(point), Arrays.toString(idealPoint), dist);
+        }
     }
 
     public static void main(String[] args) {
@@ -162,25 +172,15 @@ public class Main {
                 { 2, 5 },
         };
 
-        points = new int[][] {
-                { 2, 4 },
-                { 5, 3 },
-                { 6, 2 },
-                { 3, 4 },
-                { 8, 3 },
-                { 4, 5 },
-                { 2, 6 },
-                { 3, 5 },
-                { 3, 4 },
-                { 3, 6 },
-                { 4, 4 },
-        };
-        ArrayList<Alternative> alternatives = initAlternatives(points);
-        ArrayList<Alternative> paretoSet = findParetoSetX(alternatives);
-        ArrayList<Alternative> preferredAlternatives = findPreferredAlternatives(paretoSet);
+        List<Alternative> alternatives = initAlternatives(points);
+        List<Alternative> paretoSet = findParetoSetX(alternatives);
+        List<Alternative> preferredAlternatives = findPreferredAlternatives(paretoSet);
         out.println("Граница Парето образована решениями:");
         printAlternatives(paretoSet);
         out.println("Эффективными решениями являются:");
         printAlternatives(preferredAlternatives);
+        out.printf("Идеальная точка: %s\n", Arrays.toString(findIdealPoint(paretoSet)));
+        printEuclideanDistances(alternatives);
+        out.printf("Расстояние от первого предпочитаемого решения %s до идеальной точки: %f", preferredAlternatives.getFirst(), findEuclideanDistance(new int [] { preferredAlternatives.getFirst().getF1(), preferredAlternatives.getFirst().getF2()}, findIdealPoint(paretoSet)));
     }
 }
