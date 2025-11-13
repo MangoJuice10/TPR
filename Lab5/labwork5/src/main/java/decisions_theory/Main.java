@@ -8,22 +8,87 @@ import static java.lang.System.out;
 
 class Alternative<T extends Number> {
     private String name;
-    private final List<T> criteria;
+
+    private final Vector<T> vector;
+    private Vector<T> modifiedVector;
 
     public Alternative(String name, T[] criteriaArr) {
         this.name = name;
-        this.criteria = Arrays.asList(criteriaArr);
+        this.vector = new Vector<T>(Arrays.asList(criteriaArr));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Vector<T> getVector() {
+        return vector;
+    }
+
+    public Vector<T> getModifiedVector() {
+        return modifiedVector;
+    }
+
+    public void createModifiedVector(int criterionIndexA, int criterionIndexB) {
+        Vector<T> modifiedVector = new Vector<T>(vector);
+
+        int vectorSize = vector.getCriteriaCount();
+        boolean criterionIndexAOutOfBounds = criterionIndexA < 0 || criterionIndexA > vectorSize - 1;
+        boolean criterionIndexBOutOfBounds = criterionIndexB < 0 || criterionIndexB > vectorSize - 1;
+
+        if (!(criterionIndexAOutOfBounds || criterionIndexBOutOfBounds)) {
+            modifiedVector.swapCriteria(criterionIndexA, criterionIndexB);
+        }
+
+        this.modifiedVector = modifiedVector;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", name, vector);
+    }
+
+    public String toStringModifiedVector() {
+        return String.format("%s %s", name, modifiedVector);
+    }
+}
+
+class Vector<T extends Number> implements Cloneable {
+    private List<T> criteria;
+
+    public Vector(List<T> criteria) {
+        this.criteria = criteria;
+    }
+
+    public Vector(Vector<T> vector) {
+        this.criteria = new ArrayList<T>(vector.getCriteria());
     }
 
     public List<T> getCriteria() {
         return criteria;
     }
 
+    public int getCriteriaCount() {
+        return criteria.size();
+    }
+
+    public void swapCriteria(int criterionIndexA, int criterionIndexB) {
+        T criterionA = criteria.get(criterionIndexA);
+        T criterionB = criteria.get(criterionIndexB);
+        criteria.set(criterionIndexA, criterionB);
+        criteria.set(criterionIndexB, criterionA);
+    }
+
+    @Override
+    public Vector<T> clone() {
+        return new Vector<T>(new ArrayList<T>(criteria));
+    }
+
     @Override
     public String toString() {
-        return String.format("%s %s", name, criteria.toString()
+        return criteria.toString()
                 .replace('[', '(')
-                .replace(']', ')'));
+                .replace(']', ')');
     }
 }
 
@@ -38,7 +103,21 @@ public class Main {
         return alternatives;
     }
 
-    public static <T extends Number> List<Alternative<T>> findIncomparableAlternatives(List<Alternative<T>> alternatives) {
+    public static <T extends Number> boolean isVectorDominated(Vector<T> vectorA, Vector<T> vectorB) {
+        boolean result = true;
+
+        List<T> criteriaA = vectorA.getCriteria();
+        List<T> criteriapA = vectorB.getCriteria();
+        for (int i = 0; i < criteriaA.size(); i++) {
+            if (criteriaA.get(i).doubleValue() > criteriapA.get(i).doubleValue()) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    public static <T extends Number> List<Alternative<T>> findIncomparableAlternatives(
+            List<Alternative<T>> alternatives) {
         List<Alternative<T>> incomparabAlternatives = new ArrayList<Alternative<T>>(alternatives);
         List<Alternative<T>> dominatedAlternatives = new ArrayList<Alternative<T>>();
         for (Alternative<T> a : alternatives) {
@@ -47,16 +126,7 @@ public class Main {
                     continue;
                 }
 
-                boolean isDominated = true;
-
-                List<T> criteriaA = a.getCriteria();
-                List<T> criteriapA = pA.getCriteria();
-
-                for (int i = 0; i < criteriaA.size(); i++) {
-                    if (criteriaA.get(i).doubleValue() > criteriapA.get(i).doubleValue()) {
-                        isDominated = false;
-                    }
-                }
+                boolean isDominated = isVectorDominated(a.getVector(), pA.getVector());
 
                 if (isDominated) {
                     dominatedAlternatives.add(a);
@@ -65,6 +135,27 @@ public class Main {
         }
         incomparabAlternatives.removeAll(dominatedAlternatives);
         return incomparabAlternatives;
+    }
+
+    public static <T extends Number> List<Alternative<T>> findIncomparableAlternativesModified(
+            List<Alternative<T>> alternatives, Alternative<T> aModified) {
+        List<Alternative<T>> incomparableAlternatives = new ArrayList<Alternative<T>>(alternatives);
+        List<Alternative<T>> dominatedAlternatives = new ArrayList<Alternative<T>>();
+        for (Alternative<T> a : incomparableAlternatives) {
+            if (a.getName() == aModified.getName()) {
+                continue;
+            }
+
+            boolean isDominated = isVectorDominated(a.getVector(), aModified.getModifiedVector());
+
+            if (isDominated) {
+                dominatedAlternatives.add(a);
+            }
+        }
+
+        incomparableAlternatives.removeAll(dominatedAlternatives);
+
+        return incomparableAlternatives;
     }
 
     public static void main(String[] args) {
@@ -82,22 +173,31 @@ public class Main {
         List<Alternative<Integer>> alternatives = initAlternatives(alternativesArr);
 
         int[][] criteriaPreferenceMatrix = {
-            { 0, 1, 0, 0, 0 },
-            { 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0 },
+                { 0, 1, 0, 0, 0 },
+                { 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 1 },
+                { 0, 0, 0, 0, 0 },
         };
 
         int[][] criteriaEquivalenceMatrix = {
-            { 0, 0, 0, 0, 0 },
-            { 0, 0, 1, 0, 0 },
-            { 0, 1, 0, 1, 0 },
-            { 0, 0, 1, 0, 1 },
-            { 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0 },
+                { 0, 0, 1, 0, 0 },
+                { 0, 1, 0, 1, 0 },
+                { 0, 0, 1, 0, 1 },
+                { 0, 0, 0, 0, 0 },
         };
 
         List<Alternative<Integer>> incomparableAlternatives = findIncomparableAlternatives(alternatives);
         out.println(incomparableAlternatives);
+
+        Alternative<Integer> X1 = alternatives.get(0);
+        out.println(X1);
+        X1.createModifiedVector(0, 4);
+        out.println(X1.toStringModifiedVector());
+
+        List<Alternative<Integer>> incomparableAlternativesQt = findIncomparableAlternativesModified(
+                incomparableAlternatives, X1);
+        out.println(incomparableAlternativesQt);
     }
 }
