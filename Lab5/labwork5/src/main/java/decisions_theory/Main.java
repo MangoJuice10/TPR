@@ -221,6 +221,14 @@ public class Main {
         return incomparableAlternatives;
     }
 
+
+    public static <T extends Number> String alternativesToString(List<Alternative<T>> alternatives) {
+        return alternatives.toString()
+        .replace("[", "")
+        .replace("]", "")
+        .replace("), ", ")\n");
+    }
+
     public static void main(String[] args) {
         Integer[][] alternativesArr = {
                 { 3, 5, 5, 4, 4 },
@@ -251,13 +259,22 @@ public class Main {
                 { 0, 0, 0, 0, 0 },
         };
 
+        out.println("Исходное множество решений X:");
+        out.println(alternativesToString(alternatives));
+        out.println();
+
         List<Alternative<Integer>> incomparableAlternatives = findIncomparableAlternatives(alternatives);
-        out.println(incomparableAlternatives);
+        out.println("Исходное множество несравнимых решений P(X):");
+        out.println(alternativesToString(incomparableAlternatives));
+        out.println();
         
         List<Alternative<Integer>> incomparableAlternativesBasedOnCriteriaPreference = excludeAlternativesBasedOnPreference(incomparableAlternatives, criteriaPreferenceMatrix);
-        out.println(incomparableAlternativesBasedOnCriteriaPreference);
+        out.println("Множество несравнимых решений P(X) после использования дополнительной информации об отношении строгого предпочтения между критериями:");
+        out.println(alternativesToString(incomparableAlternativesBasedOnCriteriaPreference));
+        out.println();
 
         List<Alternative<Integer>> incomparableAlternativesBasedOnCriteriaEquivalence = excludeAlternativesBasedOnEquivalence(incomparableAlternativesBasedOnCriteriaPreference, criteriaEquivalenceMatrix);
-        out.println(incomparableAlternativesBasedOnCriteriaEquivalence);
+        out.println("Множество несравнимых решений P(X) после использования дополнительной информации об отношении эквивалентности между критериями:");
+        out.println(alternativesToString(incomparableAlternativesBasedOnCriteriaEquivalence));
     }
 }
