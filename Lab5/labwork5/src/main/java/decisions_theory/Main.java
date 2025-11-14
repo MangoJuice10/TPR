@@ -103,17 +103,34 @@ public class Main {
         return alternatives;
     }
 
-    public static <T extends Number> boolean isVectorDominated(Vector<T> vectorA, Vector<T> vectorB) {
-        boolean result = true;
+    public static <T extends Number> boolean isCriterionNotWorse(T criterionA, T criterionB) {
+        return criterionA.doubleValue() > criterionB.doubleValue() || criterionA.doubleValue() == criterionB.doubleValue();
+    }
 
+    public static <T extends Number> boolean isCriterionBetter(T criterionA, T criterionB) {
+        return criterionA.doubleValue() > criterionB.doubleValue();
+    }
+
+    public static <T extends Number> boolean isVectorDominated(Vector<T> vectorA, Vector<T> vectorB) {
         List<T> criteriaA = vectorA.getCriteria();
-        List<T> criteriapA = vectorB.getCriteria();
+        List<T> criteriaB = vectorB.getCriteria();
+
         for (int i = 0; i < criteriaA.size(); i++) {
-            if (criteriaA.get(i).doubleValue() > criteriapA.get(i).doubleValue()) {
-                result = false;
+            T criterionAI = criteriaA.get(i);
+            T criterionBI = criteriaB.get(i);
+            if (!isCriterionNotWorse(criterionBI, criterionAI)) {
+                return false;
             }
         }
-        return result;
+
+        for (int i = 0; i < criteriaA.size(); i++) {
+            T criterionAI = criteriaA.get(i);
+            T criterionBI = criteriaB.get(i);
+            if (isCriterionBetter(criterionBI, criterionAI)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static <T extends Number> List<Alternative<T>> findIncomparableAlternatives(
@@ -121,12 +138,12 @@ public class Main {
         List<Alternative<T>> incomparabAlternatives = new ArrayList<Alternative<T>>(alternatives);
         List<Alternative<T>> dominatedAlternatives = new ArrayList<Alternative<T>>();
         for (Alternative<T> a : alternatives) {
-            for (Alternative<T> pA : alternatives) {
-                if (a == pA) {
+            for (Alternative<T> b : alternatives) {
+                if (a == b) {
                     continue;
                 }
 
-                boolean isDominated = isVectorDominated(a.getVector(), pA.getVector());
+                boolean isDominated = isVectorDominated(a.getVector(), b.getVector());
 
                 if (isDominated) {
                     dominatedAlternatives.add(a);
