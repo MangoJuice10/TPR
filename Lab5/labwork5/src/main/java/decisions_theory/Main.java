@@ -137,7 +137,7 @@ public class Main {
         return incomparabAlternatives;
     }
 
-    public static <T extends Number> List<Alternative<T>> findIncomparableAlternativesModified(
+    public static <T extends Number> List<Alternative<T>> findDominatedAlternativesModified(
             List<Alternative<T>> alternatives, Alternative<T> aModified) {
         List<Alternative<T>> incomparableAlternatives = new ArrayList<Alternative<T>>(alternatives);
         List<Alternative<T>> dominatedAlternatives = new ArrayList<Alternative<T>>();
@@ -150,6 +150,52 @@ public class Main {
 
             if (isDominated) {
                 dominatedAlternatives.add(a);
+            }
+        }
+
+        return dominatedAlternatives;
+    }
+
+    public static <T extends Number> boolean isModifiedVectorValid(T dominantCriterion, T dominatedCriterion) {
+        return dominantCriterion.doubleValue() > dominatedCriterion.doubleValue();
+    }
+
+    public static <T extends Number> List<Alternative<T>> excludeAlternativesBasedOnPreference(List<Alternative<T>> alternatives, int[][] criteriaPreferenceMatrix) {
+        List<Alternative<T>> incomparableAlternatives = new ArrayList<Alternative<T>>(alternatives);
+        List<Alternative<T>> dominatedAlternatives = new ArrayList<Alternative<T>>();
+        for (int i = 0; i < criteriaPreferenceMatrix.length; i++) {
+            for (int j = 0; j < criteriaPreferenceMatrix.length; j++) {
+                if (criteriaPreferenceMatrix[i][j] == 1) {
+                    for (Alternative<T> a : alternatives) {
+                        T dominantCriterion = a.getVector().getCriteria().get(i);
+                        T dominatedCriterion = a.getVector().getCriteria().get(j);
+                        if (!isModifiedVectorValid(dominantCriterion, dominatedCriterion)) {
+                            continue;
+                        }
+
+                        a.createModifiedVector(i, j);
+                        dominatedAlternatives.addAll(findDominatedAlternativesModified(incomparableAlternatives, a));
+                    }
+                }
+            }
+        }
+
+        incomparableAlternatives.removeAll(dominatedAlternatives);
+
+        return incomparableAlternatives;
+    }
+
+    public static <T extends Number> List<Alternative<T>> excludeAlternativesBasedOnEquivalence(List<Alternative<T>> alternatives, int[][] criteriaEquivalenceMatrix) {
+        List<Alternative<T>> incomparableAlternatives = new ArrayList<Alternative<T>>(alternatives);
+        List<Alternative<T>> dominatedAlternatives = new ArrayList<Alternative<T>>();
+        for (int i = 0; i < criteriaEquivalenceMatrix.length; i++) {
+            for (int j = 0; j < criteriaEquivalenceMatrix.length; j++) {
+                if (criteriaEquivalenceMatrix[i][j] == 1) {
+                    for (Alternative<T> a : alternatives) {
+                        a.createModifiedVector(i, j);
+                        dominatedAlternatives.addAll(findDominatedAlternativesModified(incomparableAlternatives, a));
+                    }
+                }
             }
         }
 
@@ -184,20 +230,17 @@ public class Main {
                 { 0, 0, 0, 0, 0 },
                 { 0, 0, 1, 0, 0 },
                 { 0, 1, 0, 1, 0 },
-                { 0, 0, 1, 0, 1 },
+                { 0, 0, 1, 0, 0 },
                 { 0, 0, 0, 0, 0 },
         };
 
         List<Alternative<Integer>> incomparableAlternatives = findIncomparableAlternatives(alternatives);
         out.println(incomparableAlternatives);
+        
+        List<Alternative<Integer>> incomparableAlternativesBasedOnCriteriaPreference = excludeAlternativesBasedOnPreference(incomparableAlternatives, criteriaPreferenceMatrix);
+        out.println(incomparableAlternativesBasedOnCriteriaPreference);
 
-        Alternative<Integer> X1 = alternatives.get(0);
-        out.println(X1);
-        X1.createModifiedVector(0, 4);
-        out.println(X1.toStringModifiedVector());
-
-        List<Alternative<Integer>> incomparableAlternativesQt = findIncomparableAlternativesModified(
-                incomparableAlternatives, X1);
-        out.println(incomparableAlternativesQt);
+        List<Alternative<Integer>> incomparableAlternativesBasedOnCriteriaEquivalence = excludeAlternativesBasedOnEquivalence(incomparableAlternativesBasedOnCriteriaPreference, criteriaEquivalenceMatrix);
+        out.println(incomparableAlternativesBasedOnCriteriaEquivalence);
     }
 }
