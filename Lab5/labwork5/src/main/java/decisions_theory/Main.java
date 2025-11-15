@@ -146,6 +146,7 @@ public class Main {
                 boolean isDominated = isVectorDominated(a.getVector(), b.getVector());
 
                 if (isDominated) {
+                    out.printf("Решение %s доминируется решением %s%n%n", a, b);
                     dominatedAlternatives.add(a);
                 }
             }
@@ -166,6 +167,7 @@ public class Main {
             boolean isDominated = isVectorDominated(a.getVector(), aModified.getModifiedVector());
 
             if (isDominated) {
+                out.printf("Решение %s доминируется решением %s с модифицированной векторной оценкой %s%n%n", a, aModified, aModified.getModifiedVector());
                 dominatedAlternatives.add(a);
             }
         }
@@ -209,6 +211,12 @@ public class Main {
             for (int j = 0; j < criteriaEquivalenceMatrix.length; j++) {
                 if (criteriaEquivalenceMatrix[i][j] == 1) {
                     for (Alternative<T> a : alternatives) {
+                        T dominantCriterion = a.getVector().getCriteria().get(i);
+                        T dominatedCriterion = a.getVector().getCriteria().get(j);
+                        if (!isModifiedVectorValid(dominantCriterion, dominatedCriterion)) {
+                            continue;
+                        }
+
                         a.createModifiedVector(i, j);
                         dominatedAlternatives.addAll(findDominatedAlternativesModified(incomparableAlternatives, a));
                     }
@@ -241,6 +249,18 @@ public class Main {
                 { 4, 5, 3, 4, 3 },
         };
 
+        // Векторные оценки критериев на защите ЛР
+        /* alternativesArr = new Integer[][] {
+            { 2, 4, 5 },
+            { 4, 1, 3 },
+            { 1, 5, 4 },
+            { 3, 2, 5 },
+            { 4, 1, 3 },
+            { 4, 3, 2 },
+            { 2, 4, 5 },
+            { 5, 3, 4 },
+        }; */
+
         List<Alternative<Integer>> alternatives = initAlternatives(alternativesArr);
 
         int[][] criteriaPreferenceMatrix = {
@@ -251,6 +271,13 @@ public class Main {
                 { 0, 0, 0, 0, 0 },
         };
 
+        // Матрица предпочтения критериев на защите ЛР
+        /* criteriaPreferenceMatrix = new int[][] {
+            { 0, 1, 0 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
+        }; */
+
         int[][] criteriaEquivalenceMatrix = {
                 { 0, 0, 0, 0, 0 },
                 { 0, 0, 1, 0, 0 },
@@ -258,6 +285,10 @@ public class Main {
                 { 0, 0, 1, 0, 0 },
                 { 0, 0, 0, 0, 0 },
         };
+
+        // Матрица эквивалентности критериев на защите ЛР
+        /* criteriaEquivalenceMatrix = new int[][] {
+        }; */ 
 
         out.println("Исходное множество решений X:");
         out.println(alternativesToString(alternatives));
