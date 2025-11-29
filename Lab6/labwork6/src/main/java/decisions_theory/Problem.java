@@ -67,35 +67,6 @@ abstract class PairCompMatrix {
         return eigenvectorStrategy.execute(matrix);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (double[] row : matrix) {
-            sb.append("|");
-            for (double pref : row) {
-                sb.append(String.format("%8.2f", pref));
-            }
-            sb.append(String.format("%5s%n", "|"));
-        }
-        return sb.toString();
-    }
-
-    public String eigenvectorToString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (double weight : computeEigenvector()) {
-            sb.append(String.format("%8.2f", weight));
-        }
-        sb.append(String.format("%5s", "]"));
-        return sb.toString();
-    }
-}
-
-class CriteriaPairCompMatrix extends PairCompMatrix {
-    public CriteriaPairCompMatrix(double[][] matrix, EigenvectorStrategy eigenvector) {
-        super(matrix, eigenvector);
-    }
-
     public double[] computeEigenvectorQt() {
         double[] eigenvector = computeEigenvector();
         double[] eigenvectorQt = new double[eigenvector.length];
@@ -127,8 +98,41 @@ class CriteriaPairCompMatrix extends PairCompMatrix {
         return result;
     }
 
+    public double computeConsistencyIndex() {
+        return (computeLambdaMax() - matrix.length) / (matrix.length - 1);
+    }
+
     public boolean verifyConsistency() {
         return Math.abs(computeLambdaMax() - matrix.length) < 0.5;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (double[] row : matrix) {
+            sb.append("|");
+            for (double pref : row) {
+                sb.append(String.format("%8.2f", pref));
+            }
+            sb.append(String.format("%5s%n", "|"));
+        }
+        return sb.toString();
+    }
+
+    public String eigenvectorToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (double weight : computeEigenvector()) {
+            sb.append(String.format("%8.2f", weight));
+        }
+        sb.append(String.format("%5s", "]"));
+        return sb.toString();
+    }
+}
+
+class CriteriaPairCompMatrix extends PairCompMatrix {
+    public CriteriaPairCompMatrix(double[][] matrix, EigenvectorStrategy eigenvector) {
+        super(matrix, eigenvector);
     }
 }
 
@@ -193,9 +197,11 @@ public class Problem {
         }
     }
 
-    public static void printCriteriaPairCompMatrixWithEigenvector(CriteriaPairCompMatrix criteriaMatrix) {
+    public static void printCriteriaPairCompMatrixWithProps(CriteriaPairCompMatrix criteriaMatrix) {
         out.printf("Матрица парных сравнений критериев A:%n%s%n", criteriaMatrix);
         printCriteriaPairCompMatrixEigenvector(criteriaMatrix);
+        out.printf("Lambda max матрицы парных сравнений критериев A: %.2f%n%n", criteriaMatrix.computeLambdaMax());
+        out.printf("Индекс согласованности матрицы парных сравнений критериев A: %.2f%n%n", criteriaMatrix.computeConsistencyIndex());
     }
 
     public static void printCriteriaPairCompMatrixEigenvector(CriteriaPairCompMatrix criteriaMatrix) {
@@ -203,10 +209,12 @@ public class Problem {
                 + criteriaMatrix.eigenvectorToString() + "\n");
     }
 
-    public static void printAltMatrixWithEigenvector(AltsPairCompMatrix altsMatrix) {
+    public static void printAltMatrixWithProps(AltsPairCompMatrix altsMatrix) {
         out.printf("Матрица парных сравнений решений A%d:%n%s%n", altsMatrix.getCriterionIdx(),
                 altsMatrix);
         printAltsPairCompMatrixEigenvector(altsMatrix);
+        out.printf("%nLambda max матрицы парных сравнений решений A%d: %.2f%n%n", altsMatrix.getCriterionIdx(), altsMatrix.computeLambdaMax());
+        out.printf("Индекс согласованности матрицы парных сравнений решений A%d: %.2f%n", altsMatrix.getCriterionIdx(), altsMatrix.computeConsistencyIndex());
     }
 
     public static void printAltsPairCompMatrixEigenvector(AltsPairCompMatrix altsMatrix) {
@@ -214,10 +222,11 @@ public class Problem {
                 + altsMatrix.getCriterionIdx() + ":\n" + altsMatrix.eigenvectorToString());
     }
 
-    public static void printAltsPairCompMatricesWithEigenvectors(List<AltsPairCompMatrix> altsPairCompMatrices) {
+    public static void printAltsPairCompMatricesWithProps(List<AltsPairCompMatrix> altsPairCompMatrices) {
+        out.println("-".repeat(65));
         for (AltsPairCompMatrix altsMatrix : altsPairCompMatrices) {
-            printAltMatrixWithEigenvector(altsMatrix);
-            out.println();
+            printAltMatrixWithProps(altsMatrix);
+            out.println("-".repeat(65));
         }
     }
 
@@ -286,11 +295,17 @@ public class Problem {
 
         EigenvectorStrategy methodOne = new MethodOneEigenvectorStrategy();
         CriteriaPairCompMatrix criteriaMatrix = initCriteriaPairCompMatrix(A, methodOne);
-        printCriteriaPairCompMatrixWithEigenvector(criteriaMatrix);
+        printCriteriaPairCompMatrixWithProps(criteriaMatrix);
 
         if (criteriaMatrix.verifyConsistency()) {
             List<AltsPairCompMatrix> altsPairCompMatrices = initAltsPairCompMatrices(altsMatrixData, methodOne);
-            printAltsPairCompMatricesWithEigenvectors(altsPairCompMatrices);
+            for (AltsPairCompMatrix altsPairCompMatrix : altsPairCompMatrices) {
+                if (!altsPairCompMatrix.verifyConsistency()) {
+                    out.printf("Матрица парных сравнений альтернатив A%d не является согласованной!", altsPairCompMatrix.getCriterionIdx());
+                    return;
+                }
+            }
+            printAltsPairCompMatricesWithProps(altsPairCompMatrices);
 
             double[] additiveAggregations = computeAdditiveAggregations(criteriaMatrix, altsPairCompMatrices);
             printAltsWithAdditiveAggregations(altsNames, additiveAggregations);
@@ -303,6 +318,9 @@ public class Problem {
             }
             out.printf("%nЦель принятия решений:%n");
             printAltWithAdditiveAggregation(altsNames[efficientAltIdx], additiveAggregations[efficientAltIdx]);
+        } else {
+            out.println("Матрица парных сравнений критериев не является согласованной!");
+            return;
         }
     }
 }

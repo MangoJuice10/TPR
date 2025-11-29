@@ -1,4 +1,13 @@
 -------------------------------------------------------------------------------
 Test set: decisions_theory.TestExample
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.129 s -- in decisions_theory.TestExample
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.078 s <<< FAILURE! -- in decisions_theory.TestExample
+decisions_theory.TestExample -- Time elapsed: 0.078 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	Main cannot be resolved
+
+	at decisions_theory.TestExample.initialize(TestQualityTheoryExample.java:27)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
