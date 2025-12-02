@@ -1,8 +1,8 @@
 package decisions_theory;
 
 import java.util.Collections;
-import java.util.Arrays;
 import java.util.List;
+
 import java.util.ArrayList;
 
 import static java.lang.System.out;
@@ -149,7 +149,7 @@ class AltsPairCompMatrix extends PairCompMatrix {
     }
 }
 
-public class Problem {
+public class FullConnectivityHierarchy {
     public static CriteriaPairCompMatrix initCriteriaPairCompMatrix(
             double[][] criteriaMatrixData, EigenvectorStrategy eigenvectorStrategy) {
         return new CriteriaPairCompMatrix(criteriaMatrixData, eigenvectorStrategy);
