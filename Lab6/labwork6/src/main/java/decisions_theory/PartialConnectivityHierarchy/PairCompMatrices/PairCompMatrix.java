@@ -66,9 +66,6 @@ public abstract class PairCompMatrix {
             result += eigenvectorDoubleQt[i];
         }
         result /= eigenvectorDoubleQt.length;
-        // DEBUG OUTPUT
-        System.out.println("EigenvectorDoubleQt: " + Arrays.toString(eigenvectorDoubleQt));
-        System.out.println("Lambda max: " + result);
         return result;
     }
 

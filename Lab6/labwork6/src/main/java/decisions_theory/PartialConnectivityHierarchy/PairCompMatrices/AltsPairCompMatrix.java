@@ -1,16 +1,34 @@
 package decisions_theory.PartialConnectivityHierarchy.PairCompMatrices;
+
 import decisions_theory.PartialConnectivityHierarchy.Hierarchy.HierarchyMatrix;
 import decisions_theory.PartialConnectivityHierarchy.Strategies.EigenvectorStrategy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AltsPairCompMatrix extends PairCompMatrix {
     private int criterionIdx;
 
-    public AltsPairCompMatrix(double[][] altsPairCompMatrix, HierarchyMatrix hierarchyMatrix, int criterionIdx, EigenvectorStrategy eigenvectorStrategy) {
+    public AltsPairCompMatrix(double[][] altsPairCompMatrix, HierarchyMatrix hierarchyMatrix, int criterionIdx,
+            EigenvectorStrategy eigenvectorStrategy) {
         super(altsPairCompMatrix, hierarchyMatrix, eigenvectorStrategy);
         this.criterionIdx = criterionIdx;
+    }
+
+    public double[] computeModifiedEigenvector() {
+        double[] eigenvector = computeEigenvector();
+        List<Integer> hierarchyElementsIndices = findHierarchyElementsIndices();
+        double[] modifiedEigenvector = new double[getHierarchyLayerElementsCount()];
+        for (int i = 0; i < eigenvector.length; i++) {
+            int layerIndex = hierarchyElementsIndices
+                    .stream()
+                    .map(index -> (index - hierarchyElementsIndices.get(0)))
+                    .toList()
+                    .get(i);
+            modifiedEigenvector[layerIndex] = eigenvector[i];
+        }
+        return modifiedEigenvector;
     }
 
     public int getCriterionIdx() {

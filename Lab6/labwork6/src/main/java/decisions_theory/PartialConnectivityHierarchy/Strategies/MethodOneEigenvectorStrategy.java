@@ -1,28 +1,18 @@
 package decisions_theory.PartialConnectivityHierarchy.Strategies;
 
-import decisions_theory.PartialConnectivityHierarchy.PairCompMatrices.PairCompMatrix;
-
 import java.util.Arrays;
-import java.util.List;
+
+import decisions_theory.PartialConnectivityHierarchy.PairCompMatrices.PairCompMatrix;
 
 public class MethodOneEigenvectorStrategy implements EigenvectorStrategy {
     private double[] getRowSums(PairCompMatrix pairCompMatrix) {
         double[][] data = pairCompMatrix.getData();
-        List<Integer> hierarchyElementsIndices = pairCompMatrix.findHierarchyElementsIndices();
-
-        double[] rowSums = new double[pairCompMatrix.getHierarchyLayerElementsCount()];
+        double[] rowSums = new double[pairCompMatrix.getData().length];
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data.length; j++) {
-                int layerIndex = hierarchyElementsIndices
-                        .stream()
-                        .map(index -> (index - hierarchyElementsIndices.get(0)))
-                        .toList()
-                        .get(i);
-                rowSums[layerIndex] += data[i][j];
+                rowSums[i] += data[i][j];
             }
         }
-        // DEBUG OUTPUT
-        System.out.println("Rows sum: " + Arrays.toString(rowSums));
         return rowSums;
     }
 
@@ -47,7 +37,7 @@ public class MethodOneEigenvectorStrategy implements EigenvectorStrategy {
     }
 
     public double[] execute(PairCompMatrix pairCompMatrix) {
-        double[] eigenvector = new double[pairCompMatrix.getHierarchyLayerElementsCount()];
+        double[] eigenvector = new double[pairCompMatrix.getData().length];
         double[] rowSums = getRowSums(pairCompMatrix);
         double matrixSum = getMatrixSum(pairCompMatrix);
         for (int i = 0; i < rowSums.length; i++) {

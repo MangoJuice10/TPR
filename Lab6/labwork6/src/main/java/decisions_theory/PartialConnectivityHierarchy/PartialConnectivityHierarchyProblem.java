@@ -1,4 +1,5 @@
 package decisions_theory.PartialConnectivityHierarchy;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -9,17 +10,20 @@ import decisions_theory.PartialConnectivityHierarchy.Strategies.EigenvectorStrat
 import decisions_theory.PartialConnectivityHierarchy.Strategies.MethodOneEigenvectorStrategy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.lang.System.out;
 
 public class PartialConnectivityHierarchyProblem {
     public static CriteriaPairCompMatrix initCriteriaPairCompMatrix(
-            double[][] criteriaMatrixData, HierarchyMatrix hierarchyMatrix, int criteriaCount, int altsCount, EigenvectorStrategy eigenvectorStrategy) {
+            double[][] criteriaMatrixData, HierarchyMatrix hierarchyMatrix, int criteriaCount, int altsCount,
+            EigenvectorStrategy eigenvectorStrategy) {
         return new CriteriaPairCompMatrix(criteriaMatrixData, hierarchyMatrix, eigenvectorStrategy);
     }
 
     public static List<AltsPairCompMatrix> initAltsPairCompMatrices(
-            List<double[][]> altsPairCompMatricesData, HierarchyMatrix hierarchyMatrix, int criteriaCount, int altsCount, EigenvectorStrategy eigenvectorStrategy) {
+            List<double[][]> altsPairCompMatricesData, HierarchyMatrix hierarchyMatrix, int criteriaCount,
+            int altsCount, EigenvectorStrategy eigenvectorStrategy) {
         List<AltsPairCompMatrix> altsPairCompMatrices = new ArrayList<AltsPairCompMatrix>();
         for (int idx = 0; idx < altsPairCompMatricesData.size(); idx++) {
             double[][] altsMatrixData = altsPairCompMatricesData.get(idx);
@@ -32,8 +36,8 @@ public class PartialConnectivityHierarchyProblem {
 
     public static double[] computeAdditiveAggregations(CriteriaPairCompMatrix criteriaMatrix,
             List<AltsPairCompMatrix> altsPairCompMatrices) {
-        int altsCount = altsPairCompMatrices.size();
         int criteriaCount = criteriaMatrix.getData().length;
+        int altsCount = altsPairCompMatrices.get(0).getHierarchyLayerElementsCount();
 
         double[] criteriaMatrixEigenvector = criteriaMatrix.computeEigenvector();
 
@@ -42,11 +46,40 @@ public class PartialConnectivityHierarchyProblem {
             double additiveAggregation = 0.0;
             for (int i = 0; i < criteriaCount; i++) {
                 additiveAggregation += criteriaMatrixEigenvector[i]
-                        * altsPairCompMatrices.get(j).computeEigenvector()[i];
+                        * altsPairCompMatrices.get(i).computeModifiedEigenvector()[j];
                 additiveAggregations[j] = additiveAggregation;
             }
         }
         return additiveAggregations;
+    }
+
+    public static List<Integer> findEfficientAltsIndices(double[] additiveAggregations) {
+        List<Integer> efficientAltsIndices = new ArrayList<Integer>();
+
+        int efficientAltIdx = 0;
+        for (int i = 0; i < additiveAggregations.length; i++) {
+            if (additiveAggregations[i] > additiveAggregations[efficientAltIdx]) {
+                efficientAltIdx = i;
+            }
+        }
+
+        for (int i = 0; i < additiveAggregations.length; i++) {
+            if (additiveAggregations[i] == additiveAggregations[efficientAltIdx]) {
+                efficientAltsIndices.add(i);
+            }
+        }
+
+        return efficientAltsIndices;
+    }
+
+    public static void printAlt(String altName) {
+        out.printf("Альтернатива \"%s\"%n", altName);
+    }
+
+    public static void printAlts(String[] altNames, List<Integer> altIndices) {
+        for (int altIdx : altIndices) {
+            printAlt(altNames[altIdx]);
+        }
     }
 
     public static void printAltWithAdditiveAggregation(String altName, double additiveAggregation) {
@@ -113,18 +146,18 @@ public class PartialConnectivityHierarchyProblem {
         };
 
         double[][] H = new double[][] {
-                // 1 2 3 4 5 6 7 8 9 10 11
-                { 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 }, // 1 Цель
-                { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0 }, // 2 Критерий 1
-                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0 }, // 3 Критерий 2
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, // 4 Критерий 3
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, // 5 Критерий 4
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 6 Решение 1
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 7 Решение 2
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8 Решение 3
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 9 Решение 4
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 10 Решение 5
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } // 11 Решение 6
+                // 0 1 2 3 4 5 6 7 8 9 10
+                { 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 }, // 0 Цель → все свойства
+                { 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 }, // 1 Свойство 1 → Решение 1, Решение 2, Решение 3
+                { 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0 }, // 2 Свойство 2 → Решение 2, Решение 4
+                { 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1 }, // 3 Свойство 3 → Решение 1, Решение 4, Решение 5, Решение 6
+                { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 }, // 4 Свойство 4 → Решнеие 3, Решение 6
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 5 Решение 1
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 6 Решение 2
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 7 Решение 3
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 8 Решение 4
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // 9 Решение 5
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } // 10 Решение 6
         };
 
         double[][] A = new double[][] {
@@ -137,22 +170,28 @@ public class PartialConnectivityHierarchyProblem {
         final int criteriaCount = A.length;
         final int altsCount = H.length - criteriaCount - 1;
 
-        double[][] A1 = {
-                { 1, 2 },
-                { 1.0 / 2, 1 }
+        // Матрицы парных сравнений альтернатив по свойствам
+        double[][] A1 = { // Свойство 1 → A1, A2, A3
+                { 1, 2, 4 },
+                { 1.0 / 2, 1, 3 },
+                { 1.0 / 4, 1.0 / 3, 1 }
         };
 
-        double[][] A2 = {
+        double[][] A2 = { // Свойство 2 → A2, A4
                 { 1, 3 },
                 { 1.0 / 3, 1 }
         };
 
-        double[][] A3 = {
-                { 1 }
+        double[][] A3 = { // Свойство 3 → A1, A4, A5, A6
+                { 1, 2, 4, 3 },
+                { 1.0 / 2, 1, 3, 2 },
+                { 1.0 / 4, 1.0 / 3, 1, 1.0 / 2 },
+                { 1.0 / 3, 1.0 / 2, 2, 1 }
         };
 
-        double[][] A4 = {
-                { 1 }
+        double[][] A4 = { // Свойство 4 → A3, A6
+                { 1, 2 },
+                { 1.0 / 2, 1 }
         };
 
         HierarchyMatrix hierarchyMatrix = new HierarchyMatrix(H, criteriaCount, altsCount);
@@ -181,14 +220,9 @@ public class PartialConnectivityHierarchyProblem {
             double[] additiveAggregations = computeAdditiveAggregations(criteriaMatrix, altsPairCompMatrices);
             printAltsWithAdditiveAggregations(altsNames, additiveAggregations);
 
-            int efficientAltIdx = 0;
-            for (int i = 0; i < additiveAggregations.length; i++) {
-                if (additiveAggregations[i] > additiveAggregations[efficientAltIdx]) {
-                    efficientAltIdx = i;
-                }
-            }
-            out.printf("%nЦель принятия решений:%n");
-            printAltWithAdditiveAggregation(altsNames[efficientAltIdx], additiveAggregations[efficientAltIdx]);
+            List<Integer> efficientAltsIndices = findEfficientAltsIndices(additiveAggregations);
+            out.printf("%nПредпочтительные решения:%n");
+            printAlts(altsNames, efficientAltsIndices);
         } else {
             out.println("Матрица парных сравнений критериев не является согласованной!");
             return;
