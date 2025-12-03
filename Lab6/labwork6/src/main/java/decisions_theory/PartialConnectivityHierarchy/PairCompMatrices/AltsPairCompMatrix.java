@@ -23,7 +23,7 @@ public class AltsPairCompMatrix extends PairCompMatrix {
         for (int i = 0; i < eigenvector.length; i++) {
             int layerIndex = hierarchyElementsIndices
                     .stream()
-                    .map(index -> (index - hierarchyElementsIndices.get(0)))
+                    .map(index -> (index - 1 - hierarchyMatrix.getCriteriaCount()))
                     .toList()
                     .get(i);
             modifiedEigenvector[layerIndex] = eigenvector[i];
