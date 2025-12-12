@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="decisions_theory.Assignment3Test" time="0.155" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="24"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1251"/>
+    <property name="java.class.path" value="c:\Users\mango\OneDrive\Documents\University\ТПР\ЛР\Lab7\labwork7\target\test-classes;c:\Users\mango\OneDrive\Documents\University\ТПР\ЛР\Lab7\labwork7\target\classes;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\mango\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\mango\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\mango\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\mango\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\mango\.m2\repository\org\assertj\assertj-core\3.24.2\assertj-core-3.24.2.jar;C:\Users\mango\.m2\repository\net\bytebuddy\byte-buddy\1.12.21\byte-buddy-1.12.21.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Europe/Moscow"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="24"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="RU"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
+    <property name="sun.java.command" value="C:\Users\mango\AppData\Local\Temp\surefire12352931650676183500\surefirebooter-20251212111818729_3.jar C:\Users\mango\AppData\Local\Temp\surefire12352931650676183500 2025-12-12T11-18-18_472-jvmRun1 surefire-20251212111818729_1tmp surefire_0-20251212111818729_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="Assignment3Test"/>
+    <property name="surefire.test.class.path" value="c:\Users\mango\OneDrive\Documents\University\ТПР\ЛР\Lab7\labwork7\target\test-classes;c:\Users\mango\OneDrive\Documents\University\ТПР\ЛР\Lab7\labwork7\target\classes;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\mango\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\mango\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\mango\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\mango\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\mango\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\mango\.m2\repository\org\assertj\assertj-core\3.24.2\assertj-core-3.24.2.jar;C:\Users\mango\.m2\repository\net\bytebuddy\byte-buddy\1.12.21\byte-buddy-1.12.21.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\mango"/>
+    <property name="user.language" value="ru"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-07-15"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-24"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="c:\Users\mango\OneDrive\Documents\University\ТПР\ЛР\Lab7\labwork7"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\mango\AppData\Local\Temp\surefire12352931650676183500\surefirebooter-20251212111818729_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="24.0.2+12-54"/>
+    <property name="user.name" value="mango"/>
+    <property name="stdout.encoding" value="Cp1251"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\mango\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\mango\AppData\Local\Temp\"/>
+    <property name="java.version" value="24.0.2"/>
+    <property name="user.dir" value="c:\Users\mango\OneDrive\Documents\University\ТПР\ЛР\Lab7\labwork7"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1251"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-24\bin;C:\windows\Sun\Java\bin;C:\windows\system32;C:\windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\MinGW\bin;C:\Program Files\nodejs\;C:\xampp\php\;C:\xampp\php\php.exe;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\ProgramData\chocolatey\lib\maven\apache-maven-3.9.11\bin;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\swipl\bin;C:\Users\mango\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\mango\AppData\Local\Programs\Python\Python313\;C:\Users\mango\AppData\Local\Microsoft\WindowsApps;C:\Users\mango\.dotnet\tools;C:\Users\mango\AppData\Roaming\npm;C:\Users\mango\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mango\AppData\Local\Programs\Git\cmd;C:\Program Files\Java\jdk-24\bin;C:\Users\mango\AppData\Local\Programs\Ollama;c:\Users\mango\.vscode\extensions\vscjava.vscode-java-debug-0.58.4\bundled\scripts\noConfigScripts;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1251"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="24.0.2+12-54"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="68.0"/>
+  </properties>
+  <testcase name="testAssignment3" classname="decisions_theory.Assignment3Test" time="0.104">
+    <system-out><![CDATA[Матрица максимальных элементов Amax (итерация 1): 
+   0   1   1   1   1   1   1
+   1   0   1   1   1   1   1
+   1   1   0   1   1   1   1
+   1   1   1   0   1   1   1
+   1   1   1   1   0   1   1
+   1   1   1   0   1   0   1
+   1   1   1   1   1   1   0
+
+
+Матрица потерь P (итерация 1): 
+   0  11   8  12   4  10   7
+   3   0   8  11   4   9   7
+   6   6   0   7   4   4   7
+   2   3   7   0   2   2   6
+  10  10  10  12   0  10  11
+   4   5  12   5   4   0   8
+   7   7   7   8   3   6   0
+
+
+Матрица Q (итерация 1): 
+ 205 206 193 194 220 206 198
+ 218 205 203 203 230 215 208
+ 229 219 203 207 238 218 216
+ 237 228 222 212 248 228 227
+ 204 194 184 183 205 195 191
+ 223 214 211 201 234 210 213
+ 226 216 206 204 233 216 205
+
+
+Удаляемые решения k и l (итерация 1): 5, 4
+
+Матрица парных сравнений для эксперта 1 (итерация 1): 
+     1   2   3   6   7
+1    0  -1   1   1   1
+2    1   0   1   1   1
+3   -1  -1   0   1   1
+6   -1  -1  -1   0  -1
+7   -1  -1  -1   1   0
+
+
+Матрица парных сравнений для эксперта 2 (итерация 1): 
+     1   2   3   6   7
+1    0   1   1   1   0
+2   -1   0   1   1  -1
+3   -1  -1   0  -1  -1
+6   -1  -1  -1   0  -1
+7    0   1   1   1   0
+
+
+Матрица парных сравнений для эксперта 3 (итерация 1): 
+     1   2   3   6   7
+1    0  -1  -1  -1  -1
+2    1   0  -1  -1   0
+3    1   1   0   1   1
+6    1   1  -1   0   1
+7    1   0  -1  -1   0
+
+
+Матрица парных сравнений для эксперта 4 (итерация 1): 
+     1   2   3   6   7
+1    0  -1  -1  -1   1
+2    1   0  -1   0   1
+3    1   1   0   1   1
+6    1   0  -1   0   1
+7   -1  -1  -1  -1   0
+
+
+Матрица парных сравнений для эксперта 5 (итерация 1): 
+     1   2   3   6   7
+1    0   0   1  -1   1
+2    0   0   1  -1   1
+3   -1  -1   0  -1  -1
+6    1   1   1   0   1
+7   -1  -1   1  -1   0
+
+
+Матрица парных сравнений для эксперта 6 (итерация 1): 
+     1   2   3   6   7
+1    0  -1  -1  -1  -1
+2    1   0  -1  -1  -1
+3    1   1   0   1  -1
+6    1   1  -1   0  -1
+7    1   1   1   1   0
+
+
+Матрица парных сравнений для эксперта 7 (итерация 1): 
+     1   2   3   6   7
+1    0  -1  -1  -1  -1
+2    1   0  -1  -1  -1
+3    1   1   0   1   0
+6    1   1  -1   0  -1
+7    1   1   0   1   0
+
+
+Матрица максимальных элементов Amax (итерация 2): 
+   0   1   1   1   1
+   1   0   1   1   1
+   1   1   0   1   1
+   1   1   1   0   1
+   1   1   1   1   0
+
+
+Матрица потерь P (итерация 2): 
+   0  11   8  10   7
+   3   0   8   9   7
+   6   6   0   4   7
+   4   5  12   0   8
+   7   7   7   6   0
+
+
+Матрица Q (итерация 2): 
+  86  88  79  87  84
+  98  86  88  95  93
+ 105  96  84  94  97
+  97  89  90  84  92
+ 102  93  87  92  86
+
+
+Удаляемые решения k и l (итерация 2): 1, 3
+
+Матрица парных сравнений для эксперта 1 (итерация 2): 
+     2   6   7
+2    0   1   1
+6   -1   0  -1
+7   -1   1   0
+
+
+Матрица парных сравнений для эксперта 2 (итерация 2): 
+     2   6   7
+2    0   1  -1
+6   -1   0  -1
+7    1   1   0
+
+
+Матрица парных сравнений для эксперта 3 (итерация 2): 
+     2   6   7
+2    0  -1   0
+6    1   0   1
+7    0  -1   0
+
+
+Матрица парных сравнений для эксперта 4 (итерация 2): 
+     2   6   7
+2    0   0   1
+6    0   0   1
+7   -1  -1   0
+
+
+Матрица парных сравнений для эксперта 5 (итерация 2): 
+     2   6   7
+2    0  -1   1
+6    1   0   1
+7   -1  -1   0
+
+
+Матрица парных сравнений для эксперта 6 (итерация 2): 
+     2   6   7
+2    0  -1  -1
+6    1   0  -1
+7    1   1   0
+
+
+Матрица парных сравнений для эксперта 7 (итерация 2): 
+     2   6   7
+2    0  -1  -1
+6    1   0  -1
+7    1   1   0
+
+
+Матрица максимальных элементов Amax (итерация 3): 
+   0   1   1
+   1   0   1
+   1   1   0
+
+
+Матрица потерь P (итерация 3): 
+   0   9   7
+   5   0   8
+   7   6   0
+
+
+Матрица Q (итерация 3): 
+  14  20  18
+  22  14  22
+  24  20  14
+
+
+Удаляемые решения k и l (итерация 3): 2, 7
+
+Итоговое групповое ранжирование R для 3-го варианта: [X4, X3, X7, X6, X2, X1, X5]
+]]></system-out>
+  </testcase>
+</testsuite>
