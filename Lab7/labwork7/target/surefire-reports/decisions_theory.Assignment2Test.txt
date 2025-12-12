@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: decisions_theory.Assignment3Test
+Test set: decisions_theory.Assignment2Test
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.182 s -- in decisions_theory.Assignment3Test
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.160 s -- in decisions_theory.Assignment2Test

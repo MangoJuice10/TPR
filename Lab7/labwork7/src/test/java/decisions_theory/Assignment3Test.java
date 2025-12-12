@@ -13,79 +13,24 @@ import static java.lang.System.out;
 class Assignment3Test {
         @Test
         public void testAssignment3() {
-                Integer[][] pairCompMatrix1 = new Integer[][] {
-                                { 0, -1, 1, -1, 1, 1, 1 },
-                                { 1, 0, 1, 1, 1, 1, 1 },
-                                { -1, -1, 0, -1, 1, 1, 1 },
-                                { 1, -1, 1, 0, 1, 1, 1 },
-                                { -1, -1, -1, -1, 0, 1, -1 },
-                                { -1, -1, -1, -1, -1, 0, -1 },
-                                { -1, -1, -1, -1, 1, 1, 0 }
-                };
-
-                Integer[][] pairCompMatrix2 = new Integer[][] {
-                                { 0, 1, 1, 1, 1, 1, 0 },
-                                { -1, 0, 1, 0, -1, 1, -1 },
-                                { -1, -1, 0, -1, -1, -1, -1 },
-                                { -1, 0, 1, 0, -1, 1, -1 },
-                                { -1, 1, 1, 1, 0, 1, -1 },
-                                { -1, -1, -1, -1, -1, 0, -1 },
-                                { 0, 1, 1, 1, 1, 1, 0 }
-                };
-
-                Integer[][] pairCompMatrix3 = new Integer[][] {
-                                { 0, -1, -1, -1, -1, -1, -1 },
-                                { 1, 0, -1, -1, -1, -1, 0 },
-                                { 1, 1, 0, 1, 1, 1, 1 },
-                                { 1, 1, -1, 0, 1, 0, 1 },
-                                { 1, 1, -1, -1, 0, -1, 1 },
-                                { 1, 1, -1, 0, 1, 0, 1 },
-                                { 1, 0, -1, -1, -1, -1, 0 }
-                };
-
-                Integer[][] pairCompMatrix4 = new Integer[][] {
-                                { 0, -1, -1, -1, 1, -1, 1 },
-                                { 1, 0, -1, -1, 1, 0, 1 },
-                                { 1, 1, 0, 0, 1, 1, 1 },
-                                { 1, 1, 0, 0, 1, 1, 1 },
-                                { -1, -1, -1, -1, 0, -1, 0 },
-                                { 1, 0, -1, -1, 1, 0, 1 },
-                                { -1, -1, -1, -1, 0, -1, 0 }
-                };
-
-                Integer[][] pairCompMatrix5 = new Integer[][] {
-                                { 0, 0, 1, -1, 1, -1, 1 },
-                                { 0, 0, 1, -1, 1, -1, 1 },
-                                { -1, -1, 0, -1, -1, -1, -1 },
-                                { 1, 1, 1, 0, 1, 0, 1 },
-                                { -1, -1, 1, -1, 0, -1, -1 },
-                                { 1, 1, 1, 0, 1, 0, 1 },
-                                { -1, -1, 1, -1, 1, -1, 0 }
-                };
-
-                Integer[][] pairCompMatrix6 = new Integer[][] {
-                                { 0, -1, -1, -1, 0, -1, -1 },
-                                { 1, 0, -1, -1, 1, -1, -1 },
-                                { 1, 1, 0, 1, 1, 1, -1 },
-                                { 1, 1, -1, 0, 1, 1, -1 },
-                                { 0, -1, -1, -1, 0, -1, -1 },
-                                { 1, 1, -1, -1, 1, 0, -1 },
-                                { 1, 1, 1, 1, 1, 1, 0 }
-                };
-
-                Integer[][] pairCompMatrix7 = new Integer[][] {
-                                { 0, -1, -1, -1, 0, -1, -1 },
-                                { 1, 0, -1, -1, 1, -1, -1 },
-                                { 1, 1, 0, 1, 1, 1, 0 },
-                                { 1, 1, -1, 0, 1, 1, -1 },
-                                { 0, -1, -1, -1, 0, -1, -1 },
-                                { 1, 1, -1, -1, 1, 0, -1 },
-                                { 1, 1, 0, 1, 1, 1, 0 }
-                };
-
+                String ranking1 = "x2, x4, x1, x3, x7, x5, x6";
+                String ranking2 = "x1~x7, x5, x4~x2, x6, x3";
+                String ranking3 = "x3, x4~x6, x5, x2~x7, x1";
+                String ranking4 = "x3~x4, x6~x2, x1, x7, x5";
+                String ranking5 = "x3~x4, x6~x2, x1, x5~x7";
+                String ranking6 = "x6~x4, x1~x2, x7, x5, x3";
+                String ranking7 = "x7, x3, x4, x6, x2, x1~x5";
+                String ranking8 = "x7~x3, x4, x6, x2, x1~x5";
                 List<Integer[][]> pairCompMatrices = new ArrayList<Integer[][]>();
-                Collections.addAll(pairCompMatrices, pairCompMatrix1, pairCompMatrix2, pairCompMatrix3, pairCompMatrix4,
-                                pairCompMatrix5, pairCompMatrix6, pairCompMatrix7);
+                Collections.addAll(pairCompMatrices,
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking1),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking2),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking3),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking4),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking5),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking6),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking7),
+                                GroupChoiceProblem.convertRankingToPairCompMatrix(ranking8));
                 String[] finalRanking = GroupChoiceProblem.computeKemeniMedian(pairCompMatrices);
                 out.println("Итоговое групповое ранжирование R для 3-го варианта: " + Arrays.toString(finalRanking));
                 assertTrue(true);
